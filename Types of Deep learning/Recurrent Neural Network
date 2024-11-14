@@ -1,0 +1,32 @@
+Recurrent Neural Networks (RNNs)
+RNNs are designed to work with sequential data. They maintain an internal state that can capture information about previous inputs.
+The basic RNN computation can be represented as:
+
+h t =f(Wx t +Uh t−1 +b)
+​
+Where,
+h t is the hidden state at time t
+x t is the input at time t
+W, U, and b are learnable parameters
+f is an activation functon
+  
+Here's a simple implementation of an RNN cell
+
+
+import numpy as np
+
+class RNNCell:
+    def __init__(self, input_size, hidden_size):
+        self.Wx = np.random.randn(input_size, hidden_size)
+        self.Wh = np.random.randn(hidden_size, hidden_size)
+        self.b = np.zeros((1, hidden_size))
+
+    def forward(self, x, h_prev):
+        return np.tanh(np.dot(x, self.Wx) + np.dot(h_prev, self.Wh) + self.b)
+
+# Usage
+rnn_cell = RNNCell(input_size=10, hidden_size=20)
+x = np.random.randn(1, 10)
+h_prev = np.zeros((1, 20))
+h_next = rnn_cell.forward(x, h_prev)
+print(h_next.shape)

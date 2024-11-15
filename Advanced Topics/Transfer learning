@@ -1,0 +1,25 @@
+Transfer Learning
+Transfer learning is a technique where a model trained on one task is re-purposed on a second related task. It's particularly useful when you have a small dataset for your target task.
+Here's a conceptual example using PyTorch:
+
+import torch
+import torchvision.models as models
+from torch import nn
+
+def create_transfer_learning_model(num_classes):
+    # Load a pre-trained ResNet model
+    model = models.resnet18(pretrained=True)
+    
+    # Freeze all layers
+    for param in model.parameters():
+        param.requires_grad = False
+    
+    # Replace the last fully connected layer
+    num_ftrs = model.fc.in_features
+    model.fc = nn.Linear(num_ftrs, num_classes)
+    
+    return model
+
+# Usage
+model = create_transfer_learning_model(num_classes=10)
+print(model)
